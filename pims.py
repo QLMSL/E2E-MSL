@@ -39,16 +39,12 @@ class DifferentiableSoftMeanShift2D(nn.Module):
 
         centers_list = []
 
-        # ---------------------------
-        # eps ∈ (0,1)
-        # forward不变
-        # backward放大50倍
-        # ---------------------------
+
         eps = torch.sigmoid(self.eps_raw)
 
         eps = GradScale.apply(
             eps,
-            20.0  # 可以试50、100、200
+            20.0  
         )
 
         for b in range(B):
@@ -91,9 +87,6 @@ class DifferentiableSoftMeanShift2D(nn.Module):
             )
 
             rss_vals = rss_vals.reshape(-1)
-
-            # ========= Mean Shift =========
-
             for _ in range(self.num_iters):
                 dists = torch.cdist(
                     points,
@@ -139,7 +132,6 @@ class DifferentiableSoftMeanShift2D(nn.Module):
         if points.shape[0] == 0:
             return points
 
-        # 近似去重
         unique_mask = torch.ones(points.size(0), device=points.device)
         final_centers = []
         for i in range(points.size(0)):
