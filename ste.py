@@ -28,7 +28,6 @@ class MaskedSelectSTE(torch.autograd.Function):
 
         grad_x = torch.zeros_like(mask_soft)
 
-        # 被选中的位置接收梯度
         grad_x[mask_hard] = grad_output.abs().mean()
 
         grad_mask = grad_x
