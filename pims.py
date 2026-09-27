@@ -58,9 +58,6 @@ class DifferentiableSoftMeanShift2D(nn.Module):
             )
 
 
-
-            # ========= STE masked select =========
-
             nonzero_vals = MaskedSelectSTE.apply(
                 x,
                 mask_soft
